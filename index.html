@@ -79,7 +79,7 @@
   /* HOW IT WORKS */
   .hiw { background: #f4f6fb; }
   .hiw-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px,1fr)); gap: 24px; max-width: 1000px; margin: 0 auto; }
-  .hiw-card { background: #fff; border-radius: 5%; padding: 30px 22px; text-align: center; border: 1px solid #e4e8f4; transition: box-shadow 0.2s, transform 0.2s; }
+  .hiw-card { background: #fff; border-radius: 0; padding: 30px 22px; text-align: center; border: 1px solid #e4e8f4; transition: box-shadow 0.2s, transform 0.2s; }
   .hiw-card:hover { box-shadow: 0 6px 24px rgba(13,27,75,0.1); transform: translateY(-3px); }
   .hiw-step { display: inline-block; background: #0d1b4b; color: #fff; font-size: 0.68rem; font-weight: 700; padding: 3px 10px; border-radius: 4px; margin-bottom: 14px; }
   .hiw-icon { font-size: 30px; margin-bottom: 12px; }
@@ -89,9 +89,12 @@
   /* PLANS */
   .subs { background: #fff; }
   .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px,1fr)); gap: 22px; max-width: 980px; margin: 0 auto; }
-  .plan-card { border: 1.5px solid #dde2f0; border-radius: 5%; padding: 30px 26px; position: relative; transition: all 0.2s; }
-  .plan-card:hover { border-color: #1a3a8a; box-shadow: 0 6px 28px rgba(13,27,75,0.1); }
-  .plan-card.featured { border-color: #0d1b4b; box-shadow: 0 6px 28px rgba(13,27,75,0.12); }
+  .plan-card { border: 2px solid #dde2f0; border-radius: 0; padding: 0 26px 30px; position: relative; transition: all 0.2s; overflow: hidden; }
+  .plan-card::before { content: ''; display: block; height: 6px; margin: 0 -26px 24px; background: #dde2f0; transition: background 0.2s; }
+  .plan-card:hover { border-color: #1a3a8a; box-shadow: 0 8px 32px rgba(13,27,75,0.15); }
+  .plan-card:hover::before { background: #1a3a8a; }
+  .plan-card.featured { border-color: #0d1b4b; box-shadow: 0 8px 32px rgba(13,27,75,0.18); }
+  .plan-card.featured::before { background: #0d1b4b; }
   .plan-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #0d1b4b; color: #fff; font-size: 0.7rem; font-weight: 700; padding: 3px 14px; border-radius: 4px; white-space: nowrap; }
   .plan-icon { font-size: 32px; margin-bottom: 12px; }
   .plan-card h3 { font-size: 1.1rem; font-weight: 800; color: #0d1b4b; margin-bottom: 4px; }
