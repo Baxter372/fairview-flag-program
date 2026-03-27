@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Friends of Fairview – Holiday Flag Program</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', sans-serif; color: #222; background: #fff; }
+  html { scroll-behavior: smooth; }
+
+  /* NAV */
+  nav {
+    background: #0d1b4b;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 48px; position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  .nav-brand { display: flex; align-items: center; gap: 12px; }
+  .nav-logo { width: 46px; height: 46px; border-radius: 50%; overflow: hidden; }
+  .nav-logo img { width: 100%; height: 100%; object-fit: cover; }
+  .nav-title { color: #fff; font-size: 1.05rem; font-weight: 700; letter-spacing: 0.5px; }
+  .nav-links { display: flex; gap: 4px; align-items: center; }
+  .nav-links a { color: #b8c8e8; text-decoration: none; font-size: 0.85rem; padding: 7px 13px; border-radius: 4px; transition: all 0.2s; }
+  .nav-links a:hover { background: rgba(255,255,255,0.1); color: #fff; }
+  .btn-nav-cta { background: #fff !important; color: #0d1b4b !important; font-weight: 700 !important; border-radius: 4px !important; padding: 7px 18px !important; }
+  .btn-nav-cta:hover { background: #e8edf8 !important; }
+  .btn-nav-donate { background: transparent !important; color: #fff !important; border: 1.5px solid rgba(255,255,255,0.4) !important; font-weight: 600 !important; border-radius: 4px !important; padding: 7px 16px !important; cursor: pointer; }
+  .btn-nav-donate:hover { border-color: #fff !important; background: rgba(255,255,255,0.08) !important; }
+
+  /* ALERT */
+  .alert-banner { background: #f0f4ff; border-bottom: 2px solid #c8d4f0; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; color: #0d1b4b; }
+
+  /* HERO */
+  .hero { position: relative; min-height: 520px; display: flex; align-items: center; overflow: hidden; }
+  .hero-bg { position: absolute; inset: 0; background-image: url('https://i.ibb.co/QvM65cTM/Fly-A-Flag-Day-Photo.jpg'); background-size: cover; background-position: center; }
+  .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to right, rgba(13,27,75,0.88) 45%, rgba(13,27,75,0.4) 100%); }
+  .hero-content { position: relative; z-index: 2; max-width: 1100px; width: 100%; padding: 60px 48px; display: flex; flex-direction: column; gap: 16px; }
+  .hero-badge { display: inline-block; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #d0dcf5; padding: 5px 16px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; width: fit-content; }
+  .hero h1 { color: #fff; font-size: 2.6rem; font-weight: 800; line-height: 1.2; max-width: 560px; }
+  .hero p { color: #c0cfee; font-size: 1rem; max-width: 500px; line-height: 1.75; }
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 6px; }
+  .btn-primary { background: #fff; color: #0d1b4b; padding: 13px 28px; border-radius: 4px; font-size: 0.95rem; font-weight: 700; border: none; cursor: pointer; text-decoration: none; display: inline-block; transition: background 0.2s, transform 0.2s; }
+  .btn-primary:hover { background: #e8edf8; transform: translateY(-1px); }
+  .btn-hero-donate { background: transparent; color: #fff; padding: 13px 28px; border-radius: 4px; font-size: 0.95rem; font-weight: 600; border: 2px solid rgba(255,255,255,0.5); cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; }
+  .btn-hero-donate:hover { border-color: #fff; background: rgba(255,255,255,0.1); }
+  .btn-outline { background: transparent; color: #fff; padding: 13px 28px; border-radius: 4px; font-size: 0.95rem; font-weight: 600; border: 2px solid rgba(255,255,255,0.4); cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; }
+  .btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
+
+  /* DONATE MODAL */
+  .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(7,17,47,0.75); z-index: 500; align-items: center; justify-content: center; padding: 20px; }
+  .modal-backdrop.open { display: flex; }
+  .modal { background: #fff; border-radius: 8px; padding: 40px; max-width: 520px; width: 100%; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: modalIn 0.25s ease; }
+  @keyframes modalIn { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
+  .modal-close { position: absolute; top: 16px; right: 18px; background: none; border: none; font-size: 1.4rem; cursor: pointer; color: #999; }
+  .modal-close:hover { color: #333; }
+  .modal-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #1a3a8a; margin-bottom: 6px; }
+  .modal h2 { font-size: 1.6rem; font-weight: 800; color: #0d1b4b; margin-bottom: 10px; }
+  .modal-divider { width: 40px; height: 3px; background: #0d1b4b; border-radius: 2px; margin-bottom: 16px; }
+  .modal p { font-size: 0.88rem; color: #555; line-height: 1.7; margin-bottom: 20px; }
+  .impact-list { list-style: none; margin-bottom: 24px; }
+  .impact-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 0.84rem; color: #444; margin-bottom: 9px; line-height: 1.5; }
+  .amount-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 12px; }
+  .amt-btn { padding: 11px 6px; border-radius: 4px; border: 1.5px solid #dde2f0; background: #f4f6fb; font-size: 0.95rem; font-weight: 700; color: #0d1b4b; cursor: pointer; transition: all 0.2s; }
+  .amt-btn:hover, .amt-btn.active { border-color: #0d1b4b; background: #0d1b4b; color: #fff; }
+  .custom-input { width: 100%; padding: 11px 14px; border-radius: 4px; border: 1.5px solid #dde2f0; font-size: 0.95rem; color: #0d1b4b; margin-bottom: 10px; outline: none; transition: border 0.2s; }
+  .custom-input:focus { border-color: #1a3a8a; }
+  .donation-note { font-size: 0.74rem; color: #999; margin-bottom: 14px; line-height: 1.5; }
+  .btn-donate { width: 100%; padding: 13px; border-radius: 4px; background: #0d1b4b; color: #fff; font-size: 0.95rem; font-weight: 800; border: none; cursor: pointer; transition: background 0.2s, transform 0.2s; }
+  .btn-donate:hover { background: #1a3a8a; transform: translateY(-1px); }
+
+  /* SECTIONS */
+  section { padding: 64px 48px; }
+  .section-label { text-align: center; font-size: 0.72rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #1a3a8a; margin-bottom: 8px; }
+  .section-title { text-align: center; font-size: 1.8rem; font-weight: 800; color: #0d1b4b; margin-bottom: 10px; }
+  .section-sub { text-align: center; color: #666; font-size: 0.95rem; max-width: 540px; margin: 0 auto 44px; line-height: 1.7; }
+  .divider { width: 48px; height: 3px; background: #0d1b4b; margin: 10px auto 0; border-radius: 2px; }
+
+  /* HOW IT WORKS */
+  .hiw { background: #f4f6fb; }
+  .hiw-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px,1fr)); gap: 24px; max-width: 1000px; margin: 0 auto; }
+  .hiw-card { background: #fff; border-radius: 5%; padding: 30px 22px; text-align: center; border: 1px solid #e4e8f4; transition: box-shadow 0.2s, transform 0.2s; }
+  .hiw-card:hover { box-shadow: 0 6px 24px rgba(13,27,75,0.1); transform: translateY(-3px); }
+  .hiw-step { display: inline-block; background: #0d1b4b; color: #fff; font-size: 0.68rem; font-weight: 700; padding: 3px 10px; border-radius: 4px; margin-bottom: 14px; }
+  .hiw-icon { font-size: 30px; margin-bottom: 12px; }
+  .hiw-card h3 { font-size: 0.95rem; font-weight: 700; color: #0d1b4b; margin-bottom: 8px; }
+  .hiw-card p { font-size: 0.84rem; color: #666; line-height: 1.6; }
+
+  /* PLANS */
+  .subs { background: #fff; }
+  .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px,1fr)); gap: 22px; max-width: 980px; margin: 0 auto; }
+  .plan-card { border: 1.5px solid #dde2f0; border-radius: 5%; padding: 30px 26px; position: relative; transition: all 0.2s; }
+  .plan-card:hover { border-color: #1a3a8a; box-shadow: 0 6px 28px rgba(13,27,75,0.1); }
+  .plan-card.featured { border-color: #0d1b4b; box-shadow: 0 6px 28px rgba(13,27,75,0.12); }
+  .plan-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #0d1b4b; color: #fff; font-size: 0.7rem; font-weight: 700; padding: 3px 14px; border-radius: 4px; white-space: nowrap; }
+  .plan-icon { font-size: 32px; margin-bottom: 12px; }
+  .plan-card h3 { font-size: 1.1rem; font-weight: 800; color: #0d1b4b; margin-bottom: 4px; }
+  .plan-price { font-size: 1.9rem; font-weight: 800; color: #0d1b4b; margin: 10px 0 4px; }
+  .plan-price span { font-size: 0.9rem; color: #999; font-weight: 400; }
+  .plan-desc { font-size: 0.85rem; color: #555; line-height: 1.6; margin-bottom: 16px; }
+  .plan-features { list-style: none; margin-bottom: 22px; }
+  .plan-features li { font-size: 0.84rem; color: #444; padding: 5px 0; display: flex; align-items: flex-start; gap: 8px; }
+  .plan-features li::before { content: '✓'; color: #1a3a8a; font-weight: 700; margin-top: 1px; }
+  .btn-plan { width: 100%; padding: 12px; border-radius: 4px; font-size: 0.9rem; font-weight: 700; border: none; cursor: pointer; transition: all 0.2s; }
+  .btn-plan-primary { background: #0d1b4b; color: #fff; }
+  .btn-plan-primary:hover { background: #1a3a8a; }
+  .btn-plan-secondary { background: #f4f6fb; color: #0d1b4b; border: 1.5px solid #dde2f0; }
+  .btn-plan-secondary:hover { background: #e8edf8; }
+
+  /* PAY BY CHECK — patriotic */
+  .pay-check {
+    position: relative; overflow: hidden;
+    padding: 0;
+  }
+  .pay-check-stripes {
+    display: flex; flex-direction: column;
+  }
+  .stripe-row {
+    display: flex; height: 10px;
+  }
+  .stripe-row span {
+    flex: 1; height: 100%;
+  }
+  .s-red { background: #b22234; }
+  .s-white { background: #fff; }
+  .s-blue { background: #0d1b4b; }
+  .pay-check-body {
+    background: #0d1b4b;
+    padding: 28px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 20px;
+  }
+  .pay-check-left { display: flex; align-items: center; gap: 18px; }
+  .stars-badge {
+    font-size: 2rem; line-height: 1;
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    color: #fff;
+  }
+  .stars-badge .star-row { letter-spacing: 4px; }
+  .pay-check-text h3 { color: #fff; font-size: 1.05rem; font-weight: 800; margin-bottom: 4px; }
+  .pay-check-text p { color: #8899cc; font-size: 0.85rem; }
+  .btn-pdf {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: #b22234; color: #fff;
+    padding: 12px 24px; border-radius: 4px; font-size: 0.9rem; font-weight: 700;
+    text-decoration: none; border: 2px solid rgba(255,255,255,0.2);
+    transition: all 0.2s; white-space: nowrap;
+  }
+  .btn-pdf:hover { background: #8b1a28; transform: translateY(-1px); }
+  .bottom-stripe {
+    height: 8px;
+    background: repeating-linear-gradient(90deg, #b22234 0px, #b22234 40px, #fff 40px, #fff 80px, #0d1b4b 80px, #0d1b4b 120px);
+  }
+
+  /* HOLIDAYS */
+  .holidays { background: linear-gradient(160deg, #0d1b4b 0%, #1e3a6e 60%, #162d58 100%); padding: 48px; }
+  .holidays .section-title { color: #fff; }
+  .holidays .section-sub { color: #8899cc; }
+  .holidays .divider { background: rgba(255,255,255,0.3); }
+  .holiday-strip { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; max-width: 860px; margin: 0 auto; }
+  .holiday-pill { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 5%; padding: 14px 20px; display: flex; align-items: center; gap: 12px; color: #fff; font-size: 0.88rem; font-weight: 600; }
+  .holiday-pill .hdate { font-size: 0.74rem; color: #8899cc; font-weight: 400; margin-top: 2px; }
+
+  /* YOUTUBE */
+  .video-section { background: #f4f6fb; padding: 64px 48px; }
+  .video-wrap { max-width: 780px; margin: 0 auto; }
+  .yt-player {
+    position: relative; width: 100%; padding-top: 56.25%;
+    border-radius: 5%; overflow: hidden;
+    box-shadow: 0 12px 40px rgba(13,27,75,0.18);
+    cursor: pointer;
+  }
+  .yt-thumb {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; transition: transform 0.3s;
+  }
+  .yt-player:hover .yt-thumb { transform: scale(1.03); }
+  .yt-overlay {
+    position: absolute; inset: 0;
+    background: rgba(13,27,75,0.35);
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .yt-player:hover .yt-overlay { background: rgba(13,27,75,0.2); }
+  .yt-play-btn {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: #b22234; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    transition: transform 0.2s, background 0.2s;
+  }
+  .yt-player:hover .yt-play-btn { transform: scale(1.1); background: #8b1a28; }
+  .yt-play-btn svg { margin-left: 5px; }
+  .yt-caption { text-align: center; margin-top: 16px; font-size: 0.88rem; color: #666; }
+  .yt-caption strong { color: #0d1b4b; }
+  /* iframe shown after click */
+  .yt-iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; display: none; }
+
+  /* SHARE */
+  .share-section { background: #f4f6fb; padding: 64px 48px; }
+  .share-card {
+    max-width: 780px; margin: 0 auto;
+    background: #fff; border-radius: 5%; border: 1.5px solid #dde2f0;
+    padding: 44px 48px;
+    display: flex; align-items: center; gap: 48px;
+    box-shadow: 0 6px 28px rgba(13,27,75,0.08);
+  }
+  .share-left { display: flex; flex-direction: column; align-items: center; gap: 10px; flex-shrink: 0; }
+  .qr-wrap {
+    padding: 12px; background: #fff;
+    border: 2px solid #dde2f0; border-radius: 5%;
+    box-shadow: 0 2px 12px rgba(13,27,75,0.08);
+  }
+  .qr-caption { font-size: 0.78rem; color: #888; text-align: center; }
+  .share-divider { width: 1px; background: #e4e8f4; align-self: stretch; flex-shrink: 0; }
+  .share-right { flex: 1; }
+  .share-right h3 { font-size: 1.2rem; font-weight: 800; color: #0d1b4b; margin-bottom: 10px; }
+  .share-right p { font-size: 0.9rem; color: #555; line-height: 1.7; margin-bottom: 20px; }
+  .share-url-box {
+    display: flex; align-items: center;
+    border: 1.5px solid #dde2f0; border-radius: 4px;
+    overflow: hidden; margin-bottom: 14px; background: #f4f6fb;
+  }
+  .share-url-box span { flex: 1; padding: 10px 14px; font-size: 0.82rem; color: #444; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .share-url-box button {
+    background: #0d1b4b; color: #fff; border: none;
+    padding: 10px 18px; font-size: 0.82rem; font-weight: 700;
+    cursor: pointer; transition: background 0.2s; flex-shrink: 0;
+  }
+  .share-url-box button:hover { background: #1a3a8a; }
+  .share-url-box button.copied { background: #2e7d32; }
+  .btn-email-share {
+    display: inline-flex; align-items: center;
+    background: #f4f6fb; color: #0d1b4b;
+    border: 1.5px solid #dde2f0; border-radius: 4px;
+    padding: 11px 22px; font-size: 0.9rem; font-weight: 700;
+    text-decoration: none; transition: all 0.2s;
+  }
+  .btn-email-share:hover { background: #0d1b4b; color: #fff; border-color: #0d1b4b; }
+
+  /* SPONSOR */
+  .sponsors { background: #fff; padding: 48px; text-align: center; border-top: 1px solid #dde2f0; }
+  .sponsor-box { display: inline-flex; align-items: center; gap: 20px; background: #0d1b4b; color: #fff; border-radius: 5%; padding: 28px 36px; max-width: 620px; margin: 0 auto; text-align: left; }
+  .sponsor-icon { font-size: 36px; flex-shrink: 0; }
+  .sponsor-text h3 { font-size: 1rem; font-weight: 700; margin-bottom: 5px; }
+  .sponsor-text p { font-size: 0.82rem; color: #8899cc; line-height: 1.55; }
+  .btn-sponsor { margin-left: auto; background: #fff; color: #0d1b4b; flex-shrink: 0; border: none; padding: 10px 20px; border-radius: 4px; font-weight: 700; font-size: 0.85rem; cursor: pointer; white-space: nowrap; transition: background 0.2s; }
+  .btn-sponsor:hover { background: #e8edf8; }
+
+  footer { background: #07112f; color: #6677aa; text-align: center; padding: 28px 40px; font-size: 0.8rem; line-height: 1.9; }
+  footer a { color: #8899cc; text-decoration: none; }
+  footer a:hover { color: #fff; }
+  footer strong { color: #fff; }
+
+  @media (max-width: 700px) {
+    nav { padding: 12px 20px; }
+    .nav-links { display: none; }
+    section, .video-section { padding: 48px 20px; }
+    .hero-content { padding: 48px 24px; }
+    .hero h1 { font-size: 1.8rem; }
+    .modal { padding: 28px; }
+    .amount-grid { grid-template-columns: 1fr 1fr; }
+    .pay-check-body { padding: 24px 20px; flex-direction: column; align-items: flex-start; }
+    .sponsor-box { flex-direction: column; text-align: center; padding: 24px; }
+    .btn-sponsor { margin: 0 auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <div class="nav-logo">
+      <img src="https://i.ibb.co/8LS8NH0G/transparent-bg-hwf-logo.png" alt="Logo">
+    </div>
+    <span class="nav-title">FRIENDS OF FAIRVIEW</span>
+  </div>
+  <div class="nav-links">
+    <a href="#how-it-works">How It Works</a>
+    <a href="#subscribe">Subscribe</a>
+    <a href="#holidays">Holidays</a>
+    <a href="#share">Share</a>
+    <a href="#" class="btn-nav-donate" onclick="openModal(event)">❤️ Donate</a>
+    <a href="#" class="btn-nav-cta">Returning Customer</a>
+  </div>
+</nav>
+
+<!-- ALERT -->
+<div class="alert-banner">
+  🚩 &nbsp;Sign-Up for the 2026 Flag Delivery Season is OPEN — Don't miss Presidents Day delivery on Feb. 24th
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Community · Service · Pride</div>
+    <h1>Show Your Patriotism Every Holiday</h1>
+    <p>Friends of Fairview proudly displays the American flag in your yard on 5 major patriotic holidays — installed and removed for you. Every dollar supports Fairview's First Responders.</p>
+    <div class="hero-actions">
+      <a href="#subscribe" class="btn-primary">Subscribe Now — $65/year</a>
+      <a href="#" class="btn-hero-donate" onclick="openModal(event)">❤️ Make a Donation</a>
+      <a href="#" class="btn-outline">Returning Customer →</a>
+      <a href="https://app.helpingwithflags.com/uploads/pdf/1768328872.pdf" target="_blank" rel="noopener" class="btn-outline">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:4px"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+        Pay by Check (PDF)
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- DONATE MODAL -->
+<div class="modal-backdrop" id="donateModal" onclick="backdropClose(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-label">Give Back</div>
+    <h2>Make a Donation</h2>
+    <div class="modal-divider"></div>
+    <p>Friends of Fairview is 100% volunteer-run. Your donation goes directly toward supporting Fairview's First Responders and expanding community programs.</p>
+    <ul class="impact-list">
+      <li>🚒 Funds equipment for local Fire &amp; EMS teams</li>
+      <li>👮 Supports Police Department community initiatives</li>
+      <li>🏫 Sponsors youth patriotism &amp; civics programs</li>
+      <li>✅ 100% volunteer board — maximum impact guaranteed</li>
+    </ul>
+    <div class="amount-grid">
+      <button class="amt-btn" onclick="selectAmt(this)">$25</button>
+      <button class="amt-btn" onclick="selectAmt(this)">$50</button>
+      <button class="amt-btn active" onclick="selectAmt(this)">$100</button>
+      <button class="amt-btn" onclick="selectAmt(this)">$250</button>
+    </div>
+    <input class="custom-input" type="text" id="customAmt" placeholder="Or enter a custom amount ($)" oninput="clearActive()">
+    <p class="donation-note">🔒 Secure payment processing. Donations may be tax-deductible — consult your tax advisor.</p>
+    <button class="btn-donate" onclick="handleDonate()">❤️ Donate Now</button>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="hiw" id="how-it-works">
+  <div class="section-label">Simple &amp; Effortless</div>
+  <div class="section-title">How It Works</div>
+  <div class="divider" style="margin-bottom:44px"></div>
+  <div class="hiw-grid">
+    <div class="hiw-card">
+      <div class="hiw-step">Step 1</div>
+      <div class="hiw-icon">📋</div>
+      <h3>Subscribe Online</h3>
+      <p>Choose your plan and complete sign-up in under 2 minutes. One-time install included.</p>
+    </div>
+    <div class="hiw-card">
+      <div class="hiw-step">Step 2</div>
+      <div class="hiw-icon">🔧</div>
+      <h3>We Install a Pipe</h3>
+      <p>A permanent flush-mount pipe is buried in your lawn — flush with the ground, out of the way.</p>
+    </div>
+    <div class="hiw-card">
+      <div class="hiw-step">Step 3</div>
+      <div class="hiw-icon">🚩</div>
+      <h3>Flag Goes Up</h3>
+      <p>Our volunteers place your 3'×5' flag the day before each holiday. No effort required from you.</p>
+    </div>
+    <div class="hiw-card">
+      <div class="hiw-step">Step 4</div>
+      <div class="hiw-icon">✅</div>
+      <h3>We Pick It Up</h3>
+      <p>The flag is collected the day after each holiday and stored safely until next time.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SUBSCRIPTION PLANS -->
+<section class="subs" id="subscribe">
+  <div class="section-label">Choose Your Plan</div>
+  <div class="section-title">Subscription Options</div>
+  <div class="divider" style="margin-bottom:44px"></div>
+  <div class="plans-grid">
+    <div class="plan-card featured">
+      <div class="plan-badge">⭐ Most Popular</div>
+      <div class="plan-icon">🏠</div>
+      <h3>Home Flag</h3>
+      <div class="plan-price">$65 <span>/ year</span></div>
+      <p class="plan-desc">The classic residential subscription — fly the flag on all 5 holidays.</p>
+      <ul class="plan-features">
+        <li>5 major holidays per year</li>
+        <li>3'×5' U.S. flag installed &amp; removed</li>
+        <li>Permanent flush-mount pipe included</li>
+        <li>Supports local First Responders</li>
+      </ul>
+      <button class="btn-plan btn-plan-primary">Get Started</button>
+    </div>
+    <div class="plan-card">
+      <div class="plan-icon">🏢</div>
+      <h3>Business / HOA</h3>
+      <div class="plan-price" style="font-size:1.3rem;margin-top:8px">Volume Discount</div>
+      <p class="plan-desc" style="margin-top:8px">Fly the flag at your business or HOA and save with volume pricing.</p>
+      <ul class="plan-features">
+        <li>10% off when buying 4+ flags</li>
+        <li>Same 5-holiday service</li>
+        <li>Great for neighborhoods &amp; businesses</li>
+        <li>Unified billing available</li>
+      </ul>
+      <button class="btn-plan btn-plan-secondary">Request a Quote</button>
+    </div>
+    <div class="plan-card">
+      <div class="plan-icon">🎖️</div>
+      <h3>Field of Heroes</h3>
+      <div class="plan-price">$35 <span>/ flag</span></div>
+      <p class="plan-desc">Honor a hero at Veterans Park on Veterans Day with their name, rank &amp; branch.</p>
+      <ul class="plan-features">
+        <li>Displayed at Veterans Park</li>
+        <li>Name, rank &amp; branch on dog tag</li>
+        <li>A meaningful memorial tribute</li>
+        <li>Sign-up form available</li>
+      </ul>
+      <button class="btn-plan btn-plan-secondary">Honor a Hero</button>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- HOLIDAYS -->
+<section class="holidays" id="holidays">
+  <div class="section-title">Holidays We Celebrate</div>
+  <div class="section-sub">Your flag flies proudly on all five national holidays each year.</div>
+  <div class="divider" style="margin-bottom:36px"></div>
+  <div class="holiday-strip">
+    <div class="holiday-pill">🎖️ <div><div>Presidents Day</div><div class="hdate">Feb 17, 2026</div></div></div>
+    <div class="holiday-pill">⚔️ <div><div>Memorial Day</div><div class="hdate">May 25, 2026</div></div></div>
+    <div class="holiday-pill">🇺🇸 <div><div>Independence Day</div><div class="hdate">Jul 4, 2026</div></div></div>
+    <div class="holiday-pill">🦅 <div><div>Labor Day</div><div class="hdate">Sep 7, 2026</div></div></div>
+    <div class="holiday-pill">🎗️ <div><div>Veterans Day</div><div class="hdate">Nov 11, 2026</div></div></div>
+  </div>
+</section>
+
+<!-- SHARE WITH A FRIEND -->
+<section class="share-section" id="share">
+  <div class="section-label">Spread the Word</div>
+  <div class="section-title">Share with a Friend</div>
+  <div class="divider" style="margin-bottom:16px"></div>
+  <div class="section-sub">Know a neighbor who'd love to fly the flag? Share the program with them in seconds.</div>
+  <div class="share-card">
+    <div class="share-left">
+      <div class="qr-wrap">
+        <img src="data:image/png;base64,QRCODE" id="qrImg" alt="QR Code" style="width:160px;height:160px;display:block;">
+      </div>
+      <p class="qr-caption">Scan to visit the sign-up page</p>
+    </div>
+    <div class="share-divider"></div>
+    <div class="share-right">
+      <h3>Tell a Neighbor</h3>
+      <p>Share the Friends of Fairview Flag Program directly via email or copy the link below.</p>
+      <div class="share-url-box">
+        <span id="shareUrl">https://app.helpingwithflags.com/friends-of-fairview</span>
+        <button onclick="copyLink()" id="copyBtn">Copy</button>
+      </div>
+      <a class="btn-email-share" href="mailto:?subject=Fly%20the%20Flag%20This%20Holiday%20Season!&body=Hi!%0A%0AI%20wanted%20to%20share%20the%20Friends%20of%20Fairview%20Holiday%20Flag%20Program%20with%20you.%20They%20place%20an%20American%20flag%20in%20your%20yard%20on%205%20major%20holidays%20%E2%80%94%20installed%20and%20removed%20for%20you.%20All%20proceeds%20support%20local%20First%20Responders.%0A%0ASign%20up%20here%3A%20https%3A%2F%2Fapp.helpingwithflags.com%2Ffriends-of-fairview">
+        ✉️ &nbsp;Send via Email
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- SPONSOR -->
+<section class="sponsors" id="sponsor">
+  <div class="section-label">Partner With Us</div>
+  <div class="section-title">Become a Sponsor</div>
+  <div class="divider" style="margin-bottom:32px"></div>
+  <div class="sponsor-box">
+    <div class="sponsor-icon">🤝</div>
+    <div class="sponsor-text">
+      <h3>Advertise Your Brand While Giving Back</h3>
+      <p>$250, $500, and $1,000 sponsorship packages available. We'll promote your brand across our flag program and community events.</p>
+    </div>
+    <button class="btn-sponsor">Learn More</button>
+  </div>
+</section>
+
+<footer>
+  <p>📍 <strong>Friends of Fairview</strong> · Fairview, TX · Serving the Fairview community</p>
+  <p style="margin-top:6px">Questions? <a href="#">Contact the Flag Program Manager</a> &nbsp;·&nbsp; <a href="#">Club Website</a> &nbsp;·&nbsp; <a href="#">Help</a></p>
+  <p style="margin-top:10px; font-size:0.74rem;">© 2026 Friends of Fairview. All rights reserved. Flags remain the property of Friends of Fairview.</p>
+</footer>
+
+<script>
+  function openModal(e) { e.preventDefault(); document.getElementById('donateModal').classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeModal() { document.getElementById('donateModal').classList.remove('open'); document.body.style.overflow=''; }
+  function backdropClose(e) { if (e.target===document.getElementById('donateModal')) closeModal(); }
+  function selectAmt(btn) { document.querySelectorAll('.amt-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); document.getElementById('customAmt').value=''; }
+  function clearActive() { document.querySelectorAll('.amt-btn').forEach(b=>b.classList.remove('active')); }
+  function handleDonate() {
+    const active = document.querySelector('.amt-btn.active');
+    const custom = document.getElementById('customAmt').value.replace(/[^0-9.]/g,'');
+    const amt = active ? active.textContent : (custom ? '$'+parseFloat(custom).toFixed(2) : null);
+    if (!amt) { alert('Please select or enter a donation amount.'); return; }
+    alert('Thank you for your generous donation of '+amt+'!\n\nYou would now be taken to secure payment processing.');
+  }
+  function copyLink() {
+    navigator.clipboard.writeText('https://app.helpingwithflags.com/friends-of-fairview').then(() => {
+      const btn = document.getElementById('copyBtn');
+      btn.textContent = 'Copied!'; btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+  // Inject QR code from uploaded image
+  const qrImg = document.getElementById('qrImg');
+  qrImg.src = 'https://i.ibb.co/FkPmrRXx/FOF-QR-Code.png';
+</script>
+</body>
+</html>
